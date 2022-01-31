@@ -11,5 +11,5 @@ Utilize AWS CDK infrastructure as code to:
 ### **ui**
 Utilize [svelte](https://svelte.dev/docs) to build highly responsive, mobile friendly interface to drop cat pics.
 
-### **backend**
-Utilize typescript and [express](https://www.npmjs.com/package/express) to spin up server. This is intended to process the cat pics before dropping them in S3. Needs work!
+### **service**
+Utilize typescript and [express](https://www.npmjs.com/package/express) to host. This is intended to eventually process the cat pics before dropping them in S3. Needs work!
