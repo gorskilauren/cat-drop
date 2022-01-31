@@ -1,0 +1,27 @@
+{
+  "name": "cdk",
+  "app": "npx ts-node src/index.ts",
+  "version": "0.1.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "echo 'no build here'",
+    "deploy": "cdk deploy --require-approval never"
+  },
+  "devDependencies": {
+    "@aws-cdk/assert": "1.95.1",
+    "@types/node": "10.17.27",
+    "typescript": "~3.9.7"
+  },
+  "peerDependencies": {
+    "@aws-cdk/core": "1.95.1"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-apigateway": "1.95.1",
+    "@aws-cdk/aws-cloudfront": "1.95.1",
+    "@aws-cdk/aws-lambda": "1.95.1",
+    "@aws-cdk/aws-s3": "1.95.1",
+    "@aws-cdk/aws-s3-deployment": "1.95.1",
+    "@aws-cdk/core": "1.95.1"
+  }
+}
