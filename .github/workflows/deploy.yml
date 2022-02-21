@@ -2,10 +2,6 @@ name: Build & Deploy
 
 on: [push]
 
-permissions:
-  id-token: read
-  contents: read
-
 jobs:
   build:
     name: Build and test code
