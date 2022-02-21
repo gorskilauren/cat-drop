@@ -23,6 +23,7 @@ jobs:
         name: service
         path: ./service/dist
   deploy:
+    needs: build
     name: Deploy cloudformation stack
     runs-on: ubuntu-latest
     steps:
