@@ -49,7 +49,8 @@ export class StaticWebHost extends Construct {
             sources: [Source.asset(`${__dirname}/../../ui/public`)],
             destinationBucket: catSiteBucket,
             distribution: catDistribution,
-            distributionPaths: ["/*"]
+            distributionPaths: ["/*"],
+            retainOnDelete: false
         });
 
         new CfnOutput(this, 'cloufront domain name', { value: catDistribution.distributionDomainName });

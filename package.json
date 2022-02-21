@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "build": "yarn workspaces run build",
+    "deploy": "yarn workspace cdk deploy",
     "test": "yarn workspaces run test",
     "verify": "yarn test & yarn build"
   },
