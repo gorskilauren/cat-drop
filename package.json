@@ -8,11 +8,17 @@
     "build": "yarn workspaces run build",
     "deploy": "yarn workspace cdk deploy",
     "test": "yarn workspaces run test",
+    "start": "concurrently \"yarn workspace service start\" \"yarn workspace ui dev\"",
     "verify": "yarn test & yarn build"
   },
   "author": "",
   "license": "ISC",
   "workspaces": [
-   "cdk", "service", "ui"
-  ]
+    "cdk",
+    "service",
+    "ui"
+  ],
+  "devDependencies": {
+    "concurrently": "7.0.0"
+  }
 }

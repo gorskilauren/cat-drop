@@ -3,17 +3,22 @@
     let response = {
         ok: false,
     };
-    const onFileSelected = (e) => {
+    const onFileSelected = async (e) => {
         let image = e.target.files[0];
+        console.log('image', image);
         let reader = new FileReader();
-        encodedImg = reader.readAsDataURL(image);
+        reader.onloadend = () => {
+            encodedImg = reader.result;
+        }
+        reader.readAsDataURL(image);
         reader.onload = (e) => {
             avatar = e.target.result;
         };
     };
     const submitImage = async () => {
         response = await fetch(
-            "https://irfjxh8833.execute-api.us-east-2.amazonaws.com/prod/cat-image",
+            // 'http://localhost:3000/cat-image',
+            "https://z3ixj2ojoe.execute-api.us-east-2.amazonaws.com/prod/cat-image",
             {
                 method: "POST",
                 body: JSON.stringify({
@@ -21,7 +26,6 @@
                 }),
             }
         );
-        console.log(response);
     };
 </script>
 
@@ -64,7 +68,7 @@
             style="display:none"
             type="file"
             accept=".jpg, .jpeg, .png"
-            on:change={(e) => onFileSelected(e)}
+            on:change={async (e) => await onFileSelected(e)}
             bind:this={fileinput}
         />
         {#if avatar}
