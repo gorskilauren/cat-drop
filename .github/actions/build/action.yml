@@ -1,0 +1,21 @@
+name: Build
+description: Test and build code
+runs:
+  using: "composite"
+  steps:
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'yarn'
+      - run: yarn install --immutable-cache
+        shell: bash
+      - run: yarn verify
+        shell: bash
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ui
+          path: ./ui/public
+      - uses: actions/upload-artifact@v2
+        with:
+          name: service
+          path: ./service/dist

@@ -5,7 +5,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "yarn workspaces run build",
+    "deploy": "yarn workspace cdk deploy",
+    "test": "yarn workspaces run test",
+    "verify": "yarn test & yarn build"
   },
   "author": "",
   "license": "ISC",

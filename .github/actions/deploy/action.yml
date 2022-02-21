@@ -1,0 +1,34 @@
+name: Deploy
+description: Deploy cloudformation
+inputs:
+  AWS_ACCESS_KEY_ID:
+    description: AWS Access Key Id
+    required: true
+  AWS_SECRET_ACCESS_KEY:
+    description: AWS Access Key Id
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+        cache: 'yarn'
+    - run: yarn install --immutable-cache
+      shell: bash
+    - uses: actions/download-artifact@v2
+      with:
+        name: ui
+        path: ./ui/public
+    - uses: actions/download-artifact@v2
+      with:
+        name: service
+        path: ./service/dist
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ inputs.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
+    - run: yarn deploy
+      shell: bash

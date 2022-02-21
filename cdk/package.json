@@ -22,6 +22,7 @@
     "@aws-cdk/aws-lambda": "1.95.1",
     "@aws-cdk/aws-s3": "1.95.1",
     "@aws-cdk/aws-s3-deployment": "1.95.1",
-    "@aws-cdk/core": "1.95.1"
+    "@aws-cdk/core": "1.95.1",
+    "aws-cdk": "1.95.1"
   }
 }
