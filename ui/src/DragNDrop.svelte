@@ -1,36 +1,46 @@
 <script>
+    import { Jumper } from 'svelte-loading-spinners'
     let avatar, fileinput, encodedImg;
+    let loading = false;
+    const NOT_SUBMITTED = 'not_submitted'
     let response = {
-        ok: false,
+        ok: NOT_SUBMITTED,
     };
-    const onFileSelected = (e) => {
+    const onFileSelected = async (e) => {
         let image = e.target.files[0];
         let reader = new FileReader();
-        encodedImg = reader.readAsDataURL(image);
+        reader.onloadend = () => {
+            encodedImg = reader.result;
+        };
+        reader.readAsDataURL(image);
         reader.onload = (e) => {
             avatar = e.target.result;
         };
     };
     const submitImage = async () => {
+        loading = true;
         response = await fetch(
-            "https://irfjxh8833.execute-api.us-east-2.amazonaws.com/prod/cat-image",
+            // "http://localhost:3000/cat-image",
+            "https://z3ixj2ojoe.execute-api.us-east-2.amazonaws.com/prod/cat-image",
             {
                 method: "POST",
                 body: JSON.stringify({
-                    image: encodedImg,
+                    image: encodedImg
                 }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
             }
         );
-        console.log(response);
     };
 </script>
 
 <div id="app">
-
-    {#if !response.ok}
-    <h3>
-        Drop a cat pic here if you would like us to feature it on our cat wall!
-    </h3>
+    {#if response.ok == NOT_SUBMITTED}
+        <h3>
+            Drop a cat pic here if you would
+            like us to feature it on our cat wall!
+        </h3>
         {#if avatar}
             <img class="avatar" src={avatar} alt="d" />
         {:else}
@@ -55,7 +65,7 @@
             }}
         >
             {#if avatar}
-                Think you can do better? Go for it!
+                Select a new cat pic
             {:else}
                 Choose ur fav cat pic
             {/if}
@@ -64,14 +74,18 @@
             style="display:none"
             type="file"
             accept=".jpg, .jpeg, .png"
-            on:change={(e) => onFileSelected(e)}
+            on:change={async (e) => await onFileSelected(e)}
             bind:this={fileinput}
         />
-        {#if avatar}
+        {#if avatar && !loading}
             <button on:click={(e) => submitImage(e)}>Submit</button>
+        {:else if avatar && loading}
+            <Jumper size="35" color="#ff3e00" unit="px" duration="1s"></Jumper>
         {/if}
-    {:else}
-        <h3>We got it, thx!</h3>
+        {:else if response.ok}
+            <h3>We got it, thx!</h3>
+        {:else}
+            <h3>Oh no! To many cat pics!</h3>
     {/if}
 </div>
 
