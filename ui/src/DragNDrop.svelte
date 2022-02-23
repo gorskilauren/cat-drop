@@ -5,11 +5,10 @@
     };
     const onFileSelected = async (e) => {
         let image = e.target.files[0];
-        console.log('image', image);
         let reader = new FileReader();
         reader.onloadend = () => {
             encodedImg = reader.result;
-        }
+        };
         reader.readAsDataURL(image);
         reader.onload = (e) => {
             avatar = e.target.result;
@@ -17,24 +16,27 @@
     };
     const submitImage = async () => {
         response = await fetch(
-            // 'http://localhost:3000/cat-image',
+            // "http://localhost:3000/cat-image",
             "https://z3ixj2ojoe.execute-api.us-east-2.amazonaws.com/prod/cat-image",
             {
                 method: "POST",
                 body: JSON.stringify({
-                    image: encodedImg,
+                    image: encodedImg
                 }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
             }
         );
     };
 </script>
 
 <div id="app">
-
     {#if !response.ok}
-    <h3>
-        Drop a cat pic here if you would like us to feature it on our cat wall!
-    </h3>
+        <h3>
+            http://localhost:3000/cat-image Drop a cat pic here if you would
+            like us to feature it on our cat wall!
+        </h3>
         {#if avatar}
             <img class="avatar" src={avatar} alt="d" />
         {:else}

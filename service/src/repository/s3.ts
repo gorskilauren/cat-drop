@@ -5,7 +5,9 @@ const s3Client = new S3({region: 'us-east-2'});
 export const uploadCatPic = async (catPic) => {
     await s3Client.putObject({
         Body: catPic,
-        Key: 'catPic',
+        ContentEncoding: 'base64',
+        ContentType: 'image/jpeg',
+        Key: `catPic-${Date.now()}`,
         StorageClass: 'STANDARD_IA',
         ServerSideEncryption: "AES256", 
         Bucket: process.env.S3_BUCKET
