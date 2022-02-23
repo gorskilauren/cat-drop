@@ -65,7 +65,7 @@
             }}
         >
             {#if avatar}
-                Pick a new cat pic
+                Select a new cat pic
             {:else}
                 Choose ur fav cat pic
             {/if}

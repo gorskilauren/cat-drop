@@ -17,7 +17,6 @@ export default async () => {
         try {
             console.log('i <3 cats!');
             const currentCatPics = await S3Service.getCatPics();
-            console.log('current cat pics', currentCatPics);
             if (currentCatPics.length < +process.env.CAT_MAX) {
                 await S3Service.uploadCatPic(convertImageToBase64(req.body.image))
                 res.sendStatus(204);
