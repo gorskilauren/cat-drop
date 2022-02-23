@@ -1,7 +1,10 @@
 <script>
+    import { Jumper } from 'svelte-loading-spinners'
     let avatar, fileinput, encodedImg;
+    let loading = false;
+    const NOT_SUBMITTED = 'not_submitted'
     let response = {
-        ok: false,
+        ok: NOT_SUBMITTED,
     };
     const onFileSelected = async (e) => {
         let image = e.target.files[0];
@@ -15,6 +18,7 @@
         };
     };
     const submitImage = async () => {
+        loading = true;
         response = await fetch(
             // "http://localhost:3000/cat-image",
             "https://z3ixj2ojoe.execute-api.us-east-2.amazonaws.com/prod/cat-image",
@@ -32,9 +36,9 @@
 </script>
 
 <div id="app">
-    {#if !response.ok}
+    {#if response.ok == NOT_SUBMITTED}
         <h3>
-            http://localhost:3000/cat-image Drop a cat pic here if you would
+            Drop a cat pic here if you would
             like us to feature it on our cat wall!
         </h3>
         {#if avatar}
@@ -61,7 +65,7 @@
             }}
         >
             {#if avatar}
-                Think you can do better? Go for it!
+                Pick a new cat pic
             {:else}
                 Choose ur fav cat pic
             {/if}
@@ -73,11 +77,15 @@
             on:change={async (e) => await onFileSelected(e)}
             bind:this={fileinput}
         />
-        {#if avatar}
+        {#if avatar && !loading}
             <button on:click={(e) => submitImage(e)}>Submit</button>
+        {:else if avatar && loading}
+            <Jumper size="35" color="#ff3e00" unit="px" duration="1s"></Jumper>
         {/if}
-    {:else}
-        <h3>We got it, thx!</h3>
+        {:else if response.ok}
+            <h3>We got it, thx!</h3>
+        {:else}
+            <h3>Oh no! To many cat pics!</h3>
     {/if}
 </div>
 
