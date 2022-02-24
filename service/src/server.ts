@@ -1,11 +1,11 @@
 import express from 'express';
 import cors from 'cors';
-import * as S3Service from './repository/s3';
+import * as S3Repo from './repository/s3';
 require('dotenv').config()
 
 export default async () => {
     const server = express();
-    server.use(express.json({limit: '2mb'}));
+    server.use(process.env.IS_TEST || express.json({limit: '10mb'}));
     server.use(cors());
 
     const convertImageToBase64 = (image) => {
@@ -13,12 +13,19 @@ export default async () => {
         return Buffer.from(parsedImage, 'base64');
     }
 
+    const validateImage = (body) => {
+        if(!body.image || !body.image.includes('data:image')) {
+            throw new Error('invalid image provided');
+        }
+    }
+
     server.post('/cat-image', async (req, res) => {
         try {
             console.log('i <3 cats!');
-            const currentCatPics = await S3Service.getCatPics();
+            validateImage(req.body);
+            const currentCatPics = await S3Repo.getCatPics();
             if (currentCatPics.length < +process.env.CAT_MAX) {
-                await S3Service.uploadCatPic(convertImageToBase64(req.body.image))
+                await S3Repo.uploadCatPic(convertImageToBase64(req.body.image))
                 res.sendStatus(204);
             } else {
                 res.status(400).send('Too many cat pics!')

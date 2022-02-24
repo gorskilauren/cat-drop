@@ -44,5 +44,5 @@ Utilize typescript and [express](https://www.npmjs.com/package/express) to host 
 1. Add hosted zone and register a domain such as `cat.drop` or `catdrop.com`. 
     * Host the backend on a subdomain such as `api.cat.drop` or `api.catdrop.com`.
     * Host branches on subdomains such as `mybranch.cat.drop` and `mybranch.api.cat.drop` to test branches directly.
-1. Publish [`StaticWebHost` construct](./cdk/src/StaticWebHost.ts) to AWS artifact for use in other personal projects.
-1. Publish [build and deploy actions](./.github/actions/) to github marketplace for use in other personal projects' workflows.
+1. Publish [`StaticWebHost` construct](./cdk/src/StaticWebHost.ts) to private artifactory for use in other projects.
+1. Publish [build and deploy actions](./.github/actions/) to github marketplace for use in other  workflows.
